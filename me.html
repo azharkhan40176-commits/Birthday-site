@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inaya's Special Birthday</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Sections */
+        .section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* Section 1 - Landing */
+        .section-1 {
+            background: linear-gradient(135deg, #ff0066, #9900ff);
+        }
+        
+        .main-title {
+            font-size: 6rem;
+            text-shadow: 0 0 10px #ff0066, 0 0 20px #9900ff;
+            animation: glow 2s infinite alternate;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff0066; }
+            to { text-shadow: 0 0 20px #ff0066, 0 0 30px #9900ff, 0 0 40px #fc00ff; }
+        }
+        
+        /* Section 2 - Wishes */
+        .section-2 {
+            background: linear-gradient(135deg, #00dbde, #fc00ff);
+            display: none;
+        }
+        
+        .wish-box {
+            background: rgba(255,255,255,0.2);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 800px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .wish-text {
+            font-size: 2.5rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        /* Section 3 - Cake */
+        .section-3 {
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            display: none;
+        }
+        
+        .cake-container {
+            position: relative;
+            margin: 3rem 0;
+            perspective: 1000px;
+        }
+        
+        .cake {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(to bottom, #f8c8dc, #f8a5c2);
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .cake-top {
+            position: absolute;
+            width: 280px;
+            height: 30px;
+            background: #fff;
+            border-radius: 10px;
+            top: -15px;
+            left: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 50px;
+            background: linear-gradient(to bottom, #fff, #ffdd59);
+            top: -65px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        
+        .flame {
+            position: absolute;
+            width: 15px;
+            height: 30px;
+            background: #ffdd59;
+            border-radius: 50% 50% 20% 20%;
+            top: -95px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px #ffdd59;
+            animation: flicker 0.5s infinite alternate;
+            z-index: 3;
+        }
+        
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1, 0.9); opacity: 0.8; }
+        }
+        
+        .cake-cut {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(to bottom, #f8c8dc, #f8a5c2);
+            border-radius: 0 15px 0 0;
+            right: 0;
+            transform-origin: left center;
+            transform: rotateY(0deg);
+            transition: transform 1s;
+        }
+        
+        /* Section 4 - Final */
+        .section-4 {
+            background: linear-gradient(135deg, #ffe259, #ffa751);
+            display: none;
+        }
+        
+        /* Navigation */
+        .nav-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            color: #ff0066;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Music Controls */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(255,255,255,0.8);
+            padding: 10px 15px;
+            border-radius: 50px;
+        }
+        
+        #music-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fireworks Canvas -->
+    <canvas id="fireworks"></canvas>
+    
+    <!-- Page Sections -->
+    <div class="section section-1">
+        <h1 class="main-title">HAPPY BIRTHDAY INAYA!</h1>
+        <p style="font-size: 1.5rem;">Scroll down or click the button below to continue...</p>
+    </div>
+    
+    <div class="section section-2">
+        <div class="wish-box">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem;">Dear Inaya,</h2>
+            <p class="wish-text">🎂 Wishing you the most amazing birthday filled with joy and laughter! </p>
+            <p class="wish-text">May all your dreams come true this year and you achieve everything you desire!</p>
+            <p class="wish-text">You're special and loved more than you know! ❤️</p>
+        </div>
+    </div>
+    
+    <div class="section section-3">
+        <h2 style="font-size: 3rem; margin-bottom: 1rem;">Time for Cake!</h2>
+        <div class="cake-container">
+            <div class="cake">
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+                <div class="cake-cut" id="cake-cut"></div>
+            </div>
+        </div>
+        <button class="nav-btn" id="cut-btn" style="position: relative; margin-top: 2rem;">Cut Cake </button>
+    </div>
+    
+    <div class="section section-4">
+        <h1 style="font-size: 4rem; margin-bottom: 2rem;">ENJOY YOUR SPECIAL DAY!</h1>
+        <div id="final-animation" style="font-size: 5rem;">🎉🎂🎁</div>
+    </div>
+    
+    <!-- Navigation Button -->
+    <button class="nav-btn" id="next-btn">Next  ➡️</button>
+    
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <button id="music-btn">🔊</button>
+        <audio id="music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    
+    <script>
+        // Navigation Logic
+        let currentSection = 1;
+        const sections = document.querySelectorAll('.section');
+        const nextBtn = document.getElementById('next-btn');
+        
+        nextBtn.addEventListener('click', () => {
+            if(currentSection < 4) {
+                sections[currentSection-1].style.display = 'none';
+                sections[currentSection].style.display = 'flex';
+                currentSection++;
+                
+                if(currentSection === 4) {
+                    nextBtn.textContent = 'Finish ';
+                }
+            } else {
+                // Final celebration
+                launchFinale();
+            }
+        });
+        
+        // Cake Cutting
+        document.getElementById('cut-btn').addEventListener('click', () => {
+            const cakeCut = document.getElementById('cake-cut');
+            cakeCut.style.transform = 'rotateY(-60deg)';
+            cakeCut.style.boxShadow = '-10px 0 20px rgba(0,0,0,0.2)';
+            
+            // Add cake cutting sound
+            const cutSound = new Audio('https://www.soundjay.com/mechanical/sounds/scissors-1.mp3');
+            cutSound.play();
+            
+            // Change button text
+            document.getElementById('cut-btn').textContent = 'Cake Cut! ';
+        });
+        
+        // Music Control
+        const music = document.getElementById('music');
+        document.getElementById('music-btn').addEventListener('click', function() {
+            if(music.paused) {
+                music.play();
+                this.textContent = '🔊';
+            } else {
+                music.pause();
+                this.textContent = '🔇';
+            }
+        });
+        
+        // Fireworks
+        function launchFinale() {
+            // Create fireworks effect
+            const fireworks = document.getElementById('fireworks');
+            fireworks.width = window.innerWidth;
+            fireworks.height = window.innerHeight;
+            const ctx = fireworks.getContext('2d');
+            
+            // Firework animation code
+            function Firework() {
+                this.x = Math.random() * fireworks.width;
+                this.y = fireworks.height;
+                this.targetY = Math.random() * fireworks.height/2;
+                this.speed = 2 + Math.random() * 3;
+                this.radius = 1;
+                this.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+                
+                this.update = function() {
+                    this.y -= this.speed;
+                    
+                    if(this.y <= this.targetY) {
+                        this.explode();
+                        return true;
+                    }
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    
+                    return false;
+                };
+                
+                this.explode = function() {
+                    // Create particles
+                    for(let i=0; i<100; i++) {
+                        particles.push({
+                            x: this.x,
+                            y: this.y,
+                            color: this.color,
+                            radius: Math.random()*3,
+                            speed: {
+                                x: Math.random()*6-3,
+                                y: Math.random()*6-3
+                            },
+                            life: 100
+                        });
+                    }
+                };
+            }
+            
+            let particles = [];
+            let fireworksArray = [];
+            
+            function animate() {
+                ctx.fillStyle = 'rgba(0,0,0,0.1)';
+                ctx.fillRect(0, 0, fireworks.width, fireworks.height);
+                
+                // Create new fireworks randomly
+                if(Math.random() < 0.03) {
+                    fireworksArray.push(new Firework());
+                }
+                
+                // Update fireworks
+                for(let i=0; i<fireworksArray.length; i++) {
+                    if(fireworksArray[i].update()) {
+                        fireworksArray.splice(i, 1);
+                        i--;
+                    }
+                }
+                
+                // Update particles
+                for(let i=0; i<particles.length; i++) {
+                    particles[i].x += particles[i].speed.x;
+                    particles[i].y += particles[i].speed.y;
+                    particles[i].life--;
+                    
+                    ctx.beginPath();
+                    ctx.arc(particles[i].x, particles[i].y, particles[i].radius, 0, Math.PI*2);
+                    ctx.fillStyle = particles[i].color;
+                    ctx.globalAlpha = particles[i].life/100;
+                    ctx.fill();
+                    
+                    if(particles[i].life <= 0) {
+                        particles.splice(i, 1);
+                        i--;
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // Play celebration sound
+            const cheerSound = new Audio('https://www.soundjay.com/human/sounds/applause-8.mp3');
+            cheerSound.play();
+        }
+        
+        // Initialize first section
+        sections[0].style.display = 'flex';
+        
+        // Start music automatically (muted to avoid autoplay issues)
+        document.getElementById('music').muted = true;
+        document.getElementById('music').play()
+            .then(() => {
+                document.getElementById('music').muted = false;
+            })
+            .catch(e => {
+                console.log("Autoplay prevented - user needs to interact first");
+            });
+    </script>
+</body>
+</html>
